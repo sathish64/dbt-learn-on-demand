@@ -1,0 +1,27 @@
+version: 2
+
+sources:
+    - name: jaffle_shop
+      description: source definition for jaffle_shop schema.
+      database: raw
+      tables:
+        - name: customers
+          description: contains customers data
+          columns:
+            - name: id
+              description: key column for customers table
+              tests:
+                - not_null
+                - unique
+        - name: orders
+          loaded_at_field: _etl_loaded_at
+          freshness : 
+            warn_after : {count : 3, period : day}
+            error_after : {count : 5, period : day}
+          description: contains orders data
+          columns:
+            - name: id
+              description: key column for orders table
+              tests: 
+                - not_null
+                - unique
